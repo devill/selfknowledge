@@ -41,7 +41,17 @@ function App() {
     const useModifier = (modifierName, player) => {
         console.log(modifierName)
         console.log(player);
-    }
+        setPlayers(players.map((thisPlayer) => {
+            if (thisPlayer.id == player.id) {
+                return {...player, modifiers: {
+                    ...player.modifiers, [modifierName]: player.modifiers[modifierName]-1
+                    }
+                };
+            } else {
+                return thisPlayer;
+            }
+        }));
+    };
 
     return (
         <div className="App">
