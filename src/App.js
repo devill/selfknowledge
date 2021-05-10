@@ -44,6 +44,9 @@ function App() {
     const useModifier = (modifierName, player) => {
         console.log(modifierName)
         console.log(player);
+        if (modifierName === 'plusFiveMinutes') {
+            setEndOfCurrentTurn(endOfCurrentTurn + 5*60);
+        }
         setPlayers(players.map((thisPlayer) => {
             if (thisPlayer.id === player.id) {
                 return {...player, modifiers: {
