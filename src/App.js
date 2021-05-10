@@ -1,7 +1,8 @@
 import './App.css';
 import React, {useState} from 'react';
-import Card from './Card'
-import Player from './Player'
+import Card from './Card';
+import Player from './Player';
+import CountdownTimer from './CountdownTimer';
 import { v4 as uuidv4 } from 'uuid';
 
 
@@ -20,8 +21,10 @@ function App() {
     const [currentCard, setCurrentCard] = useState("");
     const [newPlayerName, setNewPlayerName] = useState("");
     const [players, setPlayers] = useState([]);
+    const [endOfCurrentTurn, setEndOfCurrentTurn] = useState(0);
 
     const drawACard = () => {
+        setEndOfCurrentTurn(Date.now()/1000 + 5*60);
         setCurrentCard(cardDeck.pick());
     };
 
@@ -42,7 +45,7 @@ function App() {
         console.log(modifierName)
         console.log(player);
         setPlayers(players.map((thisPlayer) => {
-            if (thisPlayer.id == player.id) {
+            if (thisPlayer.id === player.id) {
                 return {...player, modifiers: {
                     ...player.modifiers, [modifierName]: player.modifiers[modifierName]-1
                     }
@@ -52,6 +55,7 @@ function App() {
             }
         }));
     };
+
 
     return (
         <div className="App">
@@ -70,6 +74,7 @@ function App() {
 
             <Card text={currentCard}/>
 
+            <CountdownTimer timestamp={endOfCurrentTurn}/>
             <button onClick={drawACard}>Draw Card</button>
 
 
