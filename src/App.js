@@ -10,25 +10,27 @@ Array.prototype.pick = function () {
 };
 
 function decodeDecks(text) {
-    return Object.fromEntries(text.split("\n\n")
+    return text.split("\n\n")
     .map((deck)  => {
         const lines = deck.split("\n");
-        return [lines[0], lines.slice(1)];
-    }));
+        return {
+            title: lines[0],
+            cards: lines.slice(1)
+        };
+    });
 }
 
 function App() {
     const [currentCard, setCurrentCard] = useState("");
     const [newPlayerName, setNewPlayerName] = useState("");
+    const [newPlayerDeck, setNewPlayerDeck] = useState(0);
     const [players, setPlayers] = useState([]);
-    const [decks, setDecks] = useState({});
+    const [decks, setDecks] = useState([]);
     const [endOfCurrentTurn, setEndOfCurrentTurn] = useState(0);
 
     const drawACard = () => {
         setEndOfCurrentTurn(Date.now()/1000 + 5*60);
-        console.log(decks);
-        console.log(Object.keys(decks));
-        setCurrentCard(decks["Első szakasz"].pick());
+        setCurrentCard(decks[0].cards.pick());
     };
 
     useEffect(() => {
@@ -41,6 +43,8 @@ function App() {
         setPlayers([...players, {
             id: uuidv4(),
             name: newPlayerName,
+            deck: newPlayerDeck,
+            deckTitle: decks[newPlayerDeck].title,
             modifiers: {
                 plusFiveMinutes: 1,
                 skip: 1,
@@ -51,8 +55,6 @@ function App() {
     };
 
     const useModifier = (modifierName, player) => {
-        console.log(modifierName)
-        console.log(player);
         if (modifierName === 'plusFiveMinutes') {
             setEndOfCurrentTurn(endOfCurrentTurn + 5*60);
         }
@@ -74,8 +76,16 @@ function App() {
             <h1>Self Knowledge</h1>
             <div className="Management">
                 <input value={newPlayerName} onChange={(e) => setNewPlayerName(e.target.value)}/>
+                <select onChange={(e) => setNewPlayerDeck(e.target.value)}>
+                    {
+                        decks.map((deck, index) => {
+                            return <option value={index} key={index}>{deck.title}</option>
+                        })
+                    }
+                </select>
                 <button onClick={addPlayer}>Add player</button>
             </div>
+
             <div className="Players">
                 {
                     players.map((player) => {
