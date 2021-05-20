@@ -1,32 +1,41 @@
 import './App.css';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Card from './Card';
 import Player from './Player';
 import CountdownTimer from './CountdownTimer';
 import { v4 as uuidv4 } from 'uuid';
 
-
 Array.prototype.pick = function () {
     return this[Math.floor(Math.random() * this.length)];
 };
 
-const cardDeck = [
-    "What is biggest dream?",
-    "What is important for you in life?",
-    "Adev wvertfw vewv werv erwv wrtb wrtb wrtb vdvwerf ed erghtuy jhgvqewr gvrt?"
-];
-
+function decodeDecks(text) {
+    return Object.fromEntries(text.split("\n\n")
+    .map((deck)  => {
+        const lines = deck.split("\n");
+        return [lines[0], lines.slice(1)];
+    }));
+}
 
 function App() {
     const [currentCard, setCurrentCard] = useState("");
     const [newPlayerName, setNewPlayerName] = useState("");
     const [players, setPlayers] = useState([]);
+    const [decks, setDecks] = useState({});
     const [endOfCurrentTurn, setEndOfCurrentTurn] = useState(0);
 
     const drawACard = () => {
         setEndOfCurrentTurn(Date.now()/1000 + 5*60);
-        setCurrentCard(cardDeck.pick());
+        console.log(decks);
+        console.log(Object.keys(decks));
+        setCurrentCard(decks["Első szakasz"].pick());
     };
+
+    useEffect(() => {
+        fetch("/decks.txt")
+        .then( (result) => result.text())
+        .then( (result) => setDecks(decodeDecks(result)) );
+    },[]);
 
     const addPlayer = () => {
         setPlayers([...players, {
