@@ -22,6 +22,7 @@ function decodeDecks(text) {
 
 function App() {
     const [currentCard, setCurrentCard] = useState("");
+    const [activePlayerIndex, setActivePlayerIndex] = useState(-1);
     const [newPlayerName, setNewPlayerName] = useState("");
     const [newPlayerDeck, setNewPlayerDeck] = useState(0);
     const [players, setPlayers] = useState([]);
@@ -29,8 +30,10 @@ function App() {
     const [endOfCurrentTurn, setEndOfCurrentTurn] = useState(0);
 
     const drawACard = () => {
+        const currentPlayerIndex = (activePlayerIndex+1) % players.length;
+        setActivePlayerIndex(currentPlayerIndex);
         setEndOfCurrentTurn(Date.now()/1000 + 5*60);
-        setCurrentCard(decks[0].cards.pick());
+        setCurrentCard(decks[ players[currentPlayerIndex].deck ].cards.pick());
     };
 
     useEffect(() => {
@@ -88,8 +91,8 @@ function App() {
 
             <div className="Players">
                 {
-                    players.map((player) => {
-                        return <Player key={player.id} player={player} onUseModifier={useModifier}/>
+                    players.map((player, index) => {
+                        return <Player key={player.id} player={player} onUseModifier={useModifier} active={activePlayerIndex === index}/>
                     })
                 }
             </div>
