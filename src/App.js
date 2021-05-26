@@ -50,8 +50,7 @@ function App() {
             deckTitle: decks[newPlayerDeck].title,
             modifiers: {
                 plusFiveMinutes: 1,
-                skip: 1,
-                broadcastQuestion: 1
+                skip: 1
             }
         }]);
         setNewPlayerName("");
