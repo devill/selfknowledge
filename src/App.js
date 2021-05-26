@@ -24,8 +24,6 @@ function decodeDecks(text) {
 function App() {
     const [currentCard, setCurrentCard] = useState("");
     const [activePlayerIndex, setActivePlayerIndex] = useState(-1);
-    const [newPlayerName, setNewPlayerName] = useState("");
-    const [newPlayerDeck, setNewPlayerDeck] = useState(0);
     const [players, setPlayers] = useState([]);
     const [decks, setDecks] = useState([]);
     const [endOfCurrentTurn, setEndOfCurrentTurn] = useState(0);
@@ -43,7 +41,7 @@ function App() {
         .then( (result) => setDecks(decodeDecks(result)) );
     },[]);
 
-    const addPlayer = () => {
+    const addPlayer = (newPlayerName, newPlayerDeck) => {
         setPlayers([...players, {
             id: uuidv4(),
             name: newPlayerName,
@@ -54,7 +52,6 @@ function App() {
                 skip: 1
             }
         }]);
-        setNewPlayerName("");
     };
 
     const useModifier = (modifierName, player) => {
@@ -77,10 +74,7 @@ function App() {
     return (
         <div className="App">
             <Administration
-                newPlayerName={newPlayerName}
-                addPlayer={addPlayer}
-                onSetNewPlayerDeck={setNewPlayerDeck}
-                onSetNewPlayerName={setNewPlayerName}
+                onAddPlayer={addPlayer}
                 decks={decks}
                 />
             <Players players={players} activePlayerIndex={activePlayerIndex} useModifier={useModifier} />
