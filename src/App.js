@@ -2,6 +2,7 @@ import './App.css';
 import React, {useState, useEffect} from 'react';
 import Card from './Card';
 import Players from './Players';
+import Administration from './Administration';
 import CountdownTimer from './CountdownTimer';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -75,18 +76,13 @@ function App() {
 
     return (
         <div className="App">
-            <div className="Management">
-                <input value={newPlayerName} onChange={(e) => setNewPlayerName(e.target.value)}/>
-                <select onChange={(e) => setNewPlayerDeck(e.target.value)}>
-                    {
-                        decks.map((deck, index) => {
-                            return <option value={index} key={index}>{deck.title}</option>
-                        })
-                    }
-                </select>
-                <button onClick={addPlayer}>Add player</button>
-            </div>
-
+            <Administration
+                newPlayerName={newPlayerName}
+                addPlayer={addPlayer}
+                onSetNewPlayerDeck={setNewPlayerDeck}
+                onSetNewPlayerName={setNewPlayerName}
+                decks={decks}
+                />
             <Players players={players} activePlayerIndex={activePlayerIndex} useModifier={useModifier} />
 
             <Card text={currentCard}/>
