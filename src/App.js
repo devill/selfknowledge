@@ -1,9 +1,8 @@
 import './App.css';
 import React, {useState, useEffect} from 'react';
-import Card from './Card';
 import Players from './Players';
+import GamePlay from './GamePlay';
 import Administration from './Administration';
-import CountdownTimer from './CountdownTimer';
 import { v4 as uuidv4 } from 'uuid';
 
 Array.prototype.pick = function () {
@@ -22,6 +21,7 @@ function decodeDecks(text) {
 }
 
 function App() {
+    const [gamePhase, setGamePhase] = useState("setup");
     const [currentCard, setCurrentCard] = useState("");
     const [activePlayerIndex, setActivePlayerIndex] = useState(-1);
     const [players, setPlayers] = useState([]);
@@ -73,16 +73,20 @@ function App() {
 
     return (
         <div className="App">
-            <Administration
+            {
+                gamePhase === "setup" &&
+                <Administration
                 onAddPlayer={addPlayer}
                 decks={decks}
+                onStartPlaying={() => { setGamePhase("play") } }
                 />
+            }
             <Players players={players} activePlayerIndex={activePlayerIndex} useModifier={useModifier} />
 
-            <Card text={currentCard}/>
-
-            <CountdownTimer timestamp={endOfCurrentTurn}/>
-            <button onClick={drawACard}>Draw Card</button>
+            {
+                gamePhase === "play" &&
+                <GamePlay currentCard={currentCard} endOfCurrentTurn={endOfCurrentTurn} drawACard={drawACard} />
+            }
 
 
         </div>

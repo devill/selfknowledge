@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-function Administration({onAddPlayer, decks}) {
+function Administration({onAddPlayer, decks, onStartPlaying}) {
     const [newPlayerName, setNewPlayerName] = useState("");
     const [newPlayerDeck, setNewPlayerDeck] = useState(0);
 
@@ -20,6 +20,7 @@ function Administration({onAddPlayer, decks}) {
                 }
                 </select>
             <button onClick={addPlayer}>Add player</button>
+            <button onClick={onStartPlaying}>Start playing</button>
         </div>
 
     );
