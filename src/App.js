@@ -1,7 +1,7 @@
 import './App.css';
 import React, {useState, useEffect} from 'react';
 import Card from './Card';
-import Player from './Player';
+import Players from './Players';
 import CountdownTimer from './CountdownTimer';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -75,7 +75,6 @@ function App() {
 
     return (
         <div className="App">
-            <h1>Self Knowledge</h1>
             <div className="Management">
                 <input value={newPlayerName} onChange={(e) => setNewPlayerName(e.target.value)}/>
                 <select onChange={(e) => setNewPlayerDeck(e.target.value)}>
@@ -88,13 +87,7 @@ function App() {
                 <button onClick={addPlayer}>Add player</button>
             </div>
 
-            <div className="Players">
-                {
-                    players.map((player, index) => {
-                        return <Player key={player.id} player={player} onUseModifier={useModifier} active={activePlayerIndex === index}/>
-                    })
-                }
-            </div>
+            <Players players={players} activePlayerIndex={activePlayerIndex} useModifier={useModifier} />
 
             <Card text={currentCard}/>
 
