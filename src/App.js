@@ -2,7 +2,6 @@ import './App.css';
 import React, {useState, useEffect} from 'react';
 import GamePlay from './GamePlay';
 import Administration from './Administration';
-import { v4 as uuidv4 } from 'uuid';
 
 Array.prototype.pick = function () {
     return this[Math.floor(Math.random() * this.length)];
@@ -31,28 +30,15 @@ function App() {
         .then( (result) => setDecks(decodeDecks(result)) );
     },[]);
 
-    const addPlayer = (newPlayerName, newPlayerDeck) => {
-        setPlayers([...players, {
-            id: uuidv4(),
-            name: newPlayerName,
-            deck: newPlayerDeck,
-            deckTitle: decks[newPlayerDeck].title,
-            modifiers: {
-                plusFiveMinutes: 1,
-                skip: 1
-            }
-        }]);
-    };
-
 
     return (
         <div className="App">
             {
                 gamePhase === "setup" &&
                 <Administration
-                onAddPlayer={addPlayer}
                 decks={decks}
                 onStartPlaying={() => { setGamePhase("play") } }
+                onChange={setPlayers}
                 players={players}
             />
             }
