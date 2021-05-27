@@ -1,6 +1,5 @@
 import './App.css';
 import React, {useState, useEffect} from 'react';
-import Players from './Players';
 import GamePlay from './GamePlay';
 import Administration from './Administration';
 import { v4 as uuidv4 } from 'uuid';
@@ -79,13 +78,23 @@ function App() {
                 onAddPlayer={addPlayer}
                 decks={decks}
                 onStartPlaying={() => { setGamePhase("play") } }
-                />
+                players={players}
+                activePlayerIndex={activePlayerIndex}
+                useModifier={useModifier}
+            />
             }
-            <Players players={players} activePlayerIndex={activePlayerIndex} useModifier={useModifier} />
+            
 
             {
                 gamePhase === "play" &&
-                <GamePlay currentCard={currentCard} endOfCurrentTurn={endOfCurrentTurn} drawACard={drawACard} />
+                <GamePlay
+                    currentCard={currentCard}
+                    endOfCurrentTurn={endOfCurrentTurn}
+                    drawACard={drawACard}
+                    players={players}
+                    activePlayerIndex={activePlayerIndex}
+                    useModifier={useModifier}
+                    />
             }
 
 

@@ -1,7 +1,7 @@
 import React from "react";
 import Player from './Player';
 
-function Players({players, activePlayerIndex, useModifier}) {
+function GamePlayers({players, activePlayerIndex, useModifier}) {
     return (
         <div className="Players">
             {            
@@ -14,4 +14,4 @@ function Players({players, activePlayerIndex, useModifier}) {
     );
 }
 
-export default Players
+export default GamePlayers
