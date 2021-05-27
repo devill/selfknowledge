@@ -64,6 +64,8 @@ function App() {
                     players={players}
                     decks={decks}
                     setPlayers={setPlayers}
+                    onEndGame={() => { setGamePhase("setup"); setPlayers([])}}
+                    onModifyGame={() => { setGamePhase("setup")}}
                     />
             }
 

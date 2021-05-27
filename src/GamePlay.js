@@ -3,7 +3,7 @@ import Card from './Card';
 import GamePlayers from './GamePlayers';
 import CountdownTimer from './CountdownTimer';
 
-function GamePlay({players, decks, setPlayers}) {
+function GamePlay({players, decks, setPlayers, onEndGame, onModifyGame}) {
     const [currentCard, setCurrentCard] = useState("");
     const [activePlayerIndex, setActivePlayerIndex] = useState(-1);
     const [endOfCurrentTurn, setEndOfCurrentTurn] = useState(0);
@@ -36,6 +36,13 @@ function GamePlay({players, decks, setPlayers}) {
             <Card text={currentCard}/>
             <CountdownTimer timestamp={endOfCurrentTurn}/>
             <button onClick={drawACard}>Draw Card</button>
+
+
+            
+            <hr/>
+            <button onClick={onEndGame}>End Game</button>
+            <button onClick={onModifyGame}>Modify Game</button>
+            
         </div>
     );
 }
