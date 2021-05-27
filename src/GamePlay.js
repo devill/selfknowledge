@@ -5,19 +5,20 @@ import CountdownTimer from './CountdownTimer';
 import useStickyState from './useStickyState';
 
 
-function GamePlay({players, decks, setPlayers, onEndGame, onModifyGame}) {
+function GamePlay({players, decks, setPlayers, onEndGame, onModifyGame, gameConfiguration}) {
     const [currentCard, setCurrentCard] = useStickyState("", "CurrentCard");
     const [activePlayerIndex, setActivePlayerIndex] = useStickyState(-1, "ActiverPlayerIndex");
     const [endOfCurrentTurn, setEndOfCurrentTurn] = useStickyState(0, "EndOfCurrentTurn");
     const drawACard = () => {
+        console.log(gameConfiguration);
         const currentPlayerIndex = (activePlayerIndex+1) % players.length;
         setActivePlayerIndex(currentPlayerIndex);
-        setEndOfCurrentTurn(Date.now()/1000 + 5*60);
+        setEndOfCurrentTurn(Date.now()/1000 + gameConfiguration["turnLengthInMinutes"]*60);
         setCurrentCard(decks[ players[currentPlayerIndex].deck ].cards.pick());
     };
     const useModifier = (modifierName, player) => {
-        if (modifierName === 'plusFiveMinutes') {
-            setEndOfCurrentTurn(endOfCurrentTurn + 5*60);
+        if (modifierName === 'doubleTime') {
+            setEndOfCurrentTurn(endOfCurrentTurn + gameConfiguration["turnLengthInMinutes"]*60);
         }
         setPlayers(players.map((thisPlayer) => {
             if (thisPlayer.id === player.id) {
@@ -31,6 +32,13 @@ function GamePlay({players, decks, setPlayers, onEndGame, onModifyGame}) {
         }));
     };
 
+    const endGame = () => {
+        setCurrentCard("");
+        setActivePlayerIndex(-1);
+        setEndOfCurrentTurn(0);
+        console.log("endGame");
+        onEndGame();
+    };
 
     return (
         <div>
@@ -42,7 +50,7 @@ function GamePlay({players, decks, setPlayers, onEndGame, onModifyGame}) {
 
             
             <hr/>
-            <button onClick={onEndGame}>End Game</button>
+            <button onClick={endGame}>End Game</button>
             <button onClick={onModifyGame}>Modify Game</button>
             
         </div>

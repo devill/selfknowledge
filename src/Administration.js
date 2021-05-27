@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import AdministrationPlayers from './AdministrationPlayers';
 import { v4 as uuidv4 } from 'uuid';
 
-function Administration({onChange, decks, onStartPlaying, players}) {
+function Administration({onChange, decks, onStartPlaying, players, gameConfiguration}) {
     const [newPlayerName, setNewPlayerName] = useState("");
     const [newPlayerDeck, setNewPlayerDeck] = useState(0);
 
@@ -13,17 +13,21 @@ function Administration({onChange, decks, onStartPlaying, players}) {
             deck: newPlayerDeck,
             deckTitle: decks[newPlayerDeck].title,
             modifiers: {
-                plusFiveMinutes: 1,
+                doubleTime: 1,
                 skip: 1
             }
-        }]);
+        }], gameConfiguration);
         setNewPlayerName("");
 
     };
     const removePlayer = (player) => {
-        onChange(players.filter((currentPlayer) => currentPlayer.id !== player.id));
+        onChange(players.filter((currentPlayer) => currentPlayer.id !== player.id), gameConfiguration);
     };
-
+    const updateTurnLength = (e) => {
+        onChange(players, {...gameConfiguration, 
+            turnLengthInMinutes: e.target.value
+        });
+    };
 
 
     return (
@@ -37,8 +41,12 @@ function Administration({onChange, decks, onStartPlaying, players}) {
                 }
                 </select>
             <button onClick={addPlayer}>Add player</button>
-            <button onClick={onStartPlaying}>Start playing</button>
             <AdministrationPlayers players={players} onRemovePlayer={removePlayer}/>
+            <hr/>
+            Min single turn <input onChange={updateTurnLength} type="number" min="1" value={gameConfiguration["turnLengthInMinutes"]} />
+            <hr/>
+            <button onClick={onStartPlaying}>Start playing</button>
+
         </div>
 
     );

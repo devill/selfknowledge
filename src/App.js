@@ -24,6 +24,9 @@ function App() {
     const [gamePhase, setGamePhase] = useStickyState("setup", "GamePhase");
     const [players, setPlayers] = useStickyState([], "Players");
     const [decks, setDecks] = useState([]);
+    const [gameConfiguration, setGameConfiguration] = useStickyState({
+        turnLengthInMinutes: 5 
+    }, "gameConfiguration");
 
 
     useEffect(() => {
@@ -40,8 +43,9 @@ function App() {
                 <Administration
                 decks={decks}
                 onStartPlaying={() => { setGamePhase("play") } }
-                onChange={setPlayers}
+                onChange={(players, gameConfiguration) => { setPlayers(players); setGameConfiguration(gameConfiguration)}}
                 players={players}
+                gameConfiguration={gameConfiguration}
             />
             }
             
@@ -54,6 +58,7 @@ function App() {
                     setPlayers={setPlayers}
                     onEndGame={() => { setGamePhase("setup"); setPlayers([])}}
                     onModifyGame={() => { setGamePhase("setup")}}
+                    gameConfiguration={gameConfiguration}
                     />
             }
 
