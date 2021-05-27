@@ -2,11 +2,13 @@ import React, {useState} from 'react';
 import Card from './Card';
 import GamePlayers from './GamePlayers';
 import CountdownTimer from './CountdownTimer';
+import useStickyState from './useStickyState';
+
 
 function GamePlay({players, decks, setPlayers, onEndGame, onModifyGame}) {
-    const [currentCard, setCurrentCard] = useState("");
-    const [activePlayerIndex, setActivePlayerIndex] = useState(-1);
-    const [endOfCurrentTurn, setEndOfCurrentTurn] = useState(0);
+    const [currentCard, setCurrentCard] = useStickyState("", "CurrentCard");
+    const [activePlayerIndex, setActivePlayerIndex] = useStickyState(-1, "ActiverPlayerIndex");
+    const [endOfCurrentTurn, setEndOfCurrentTurn] = useStickyState(0, "EndOfCurrentTurn");
     const drawACard = () => {
         const currentPlayerIndex = (activePlayerIndex+1) % players.length;
         setActivePlayerIndex(currentPlayerIndex);

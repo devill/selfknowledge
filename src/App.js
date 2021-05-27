@@ -2,10 +2,12 @@ import './App.css';
 import React, {useState, useEffect} from 'react';
 import GamePlay from './GamePlay';
 import Administration from './Administration';
+import useStickyState from './useStickyState';
 
 Array.prototype.pick = function () {
     return this[Math.floor(Math.random() * this.length)];
 };
+
 
 function decodeDecks(text) {
     return text.split("\n\n")
@@ -19,8 +21,8 @@ function decodeDecks(text) {
 }
 
 function App() {
-    const [gamePhase, setGamePhase] = useState("setup");
-    const [players, setPlayers] = useState([]);
+    const [gamePhase, setGamePhase] = useStickyState("setup", "GamePhase");
+    const [players, setPlayers] = useStickyState([], "Players");
     const [decks, setDecks] = useState([]);
 
 
