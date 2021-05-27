@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import AdministrationPlayers from './AdministrationPlayers';
 
-function Administration({onAddPlayer, decks, onStartPlaying, players, activePlayerIndex, useModifier}) {
+function Administration({onAddPlayer, decks, onStartPlaying, players}) {
     const [newPlayerName, setNewPlayerName] = useState("");
     const [newPlayerDeck, setNewPlayerDeck] = useState(0);
 

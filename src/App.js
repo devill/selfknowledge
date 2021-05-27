@@ -21,18 +21,9 @@ function decodeDecks(text) {
 
 function App() {
     const [gamePhase, setGamePhase] = useState("setup");
-    const [currentCard, setCurrentCard] = useState("");
-    const [activePlayerIndex, setActivePlayerIndex] = useState(-1);
     const [players, setPlayers] = useState([]);
     const [decks, setDecks] = useState([]);
-    const [endOfCurrentTurn, setEndOfCurrentTurn] = useState(0);
 
-    const drawACard = () => {
-        const currentPlayerIndex = (activePlayerIndex+1) % players.length;
-        setActivePlayerIndex(currentPlayerIndex);
-        setEndOfCurrentTurn(Date.now()/1000 + 5*60);
-        setCurrentCard(decks[ players[currentPlayerIndex].deck ].cards.pick());
-    };
 
     useEffect(() => {
         fetch("/decks.txt")
@@ -53,22 +44,6 @@ function App() {
         }]);
     };
 
-    const useModifier = (modifierName, player) => {
-        if (modifierName === 'plusFiveMinutes') {
-            setEndOfCurrentTurn(endOfCurrentTurn + 5*60);
-        }
-        setPlayers(players.map((thisPlayer) => {
-            if (thisPlayer.id === player.id) {
-                return {...player, modifiers: {
-                    ...player.modifiers, [modifierName]: player.modifiers[modifierName]-1
-                    }
-                };
-            } else {
-                return thisPlayer;
-            }
-        }));
-    };
-
 
     return (
         <div className="App">
@@ -79,8 +54,6 @@ function App() {
                 decks={decks}
                 onStartPlaying={() => { setGamePhase("play") } }
                 players={players}
-                activePlayerIndex={activePlayerIndex}
-                useModifier={useModifier}
             />
             }
             
@@ -88,12 +61,9 @@ function App() {
             {
                 gamePhase === "play" &&
                 <GamePlay
-                    currentCard={currentCard}
-                    endOfCurrentTurn={endOfCurrentTurn}
-                    drawACard={drawACard}
                     players={players}
-                    activePlayerIndex={activePlayerIndex}
-                    useModifier={useModifier}
+                    decks={decks}
+                    setPlayers={setPlayers}
                     />
             }
 
