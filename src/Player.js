@@ -1,10 +1,22 @@
 import React from "react";
 
+
 function Player({player, onUseModifier, active, gameConfiguration}) {
+    function ModifierCard({modifierKey, text}) {
+        return (<span>
+            {
+                player.modifiersUsed[modifierKey] < gameConfiguration.numberOfModifiers[modifierKey] &&
+                <button onClick={() => onUseModifier(modifierKey, player)}>
+                {text} ({gameConfiguration.numberOfModifiers[modifierKey] - player.modifiersUsed[modifierKey]})
+                </button>
+            }
+        </span>)
+    }
+
     return (
         <p>{player.name} -
-            {player.modifiersUsed.doubleTime < gameConfiguration["numberOfDoubleTimes"] && <button onClick={() => onUseModifier("doubleTime", player)}>double time ({gameConfiguration["numberOfDoubleTimes"] - player.modifiersUsed.doubleTime})</button>}
-            {player.modifiersUsed.skip < gameConfiguration["numberOfSkips"]  && <button onClick={() => onUseModifier("skip", player)}>skip ({ gameConfiguration["numberOfSkips"] - player.modifiersUsed.skip})</button>}
+            <ModifierCard modifierKey="doubleTime" text="double time" />
+            <ModifierCard modifierKey="skip" text="skip" />
             {player.deckTitle} - {active ? "active" : ""}
         </p>
     );

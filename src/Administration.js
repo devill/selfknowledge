@@ -33,6 +33,16 @@ function Administration({onChange, decks, onStartPlaying, players, gameConfigura
         }
     };
 
+    const updateGameModifiers = (key) => {
+        return (e) => {
+            onChange(players, {...gameConfiguration,
+                numberOfModifiers: {
+                    ...gameConfiguration.numberOfModifiers,
+                    [key]: e.target.value
+                }
+            });
+        }
+    };
 
 
     return (
@@ -49,8 +59,8 @@ function Administration({onChange, decks, onStartPlaying, players, gameConfigura
             <AdministrationPlayers players={players} onRemovePlayer={removePlayer}/>
             <hr/>
             Min single turn <input onChange={updateGameConfig("turnLengthInMinutes")} type="number" min="1" value={gameConfiguration["turnLengthInMinutes"]} /><br/>
-            Number of "double times" <input onChange={updateGameConfig("numberOfDoubleTimes")} type="number" min="0" value={gameConfiguration["numberOfDoubleTimes"]} /><br/>
-            Number of "skips" <input onChange={updateGameConfig("numberOfSkips")} type="number" min="0" value={gameConfiguration["numberOfSkips"]} /><br/>
+            Number of "double times" <input onChange={updateGameModifiers("doubleTime")} type="number" min="0" value={gameConfiguration.numberOfModifiers["doubleTime"]} /><br/>
+            Number of "skips" <input onChange={updateGameModifiers("skip")} type="number" min="0" value={gameConfiguration.numberOfModifiers["skip"]} /><br/>
             <hr/>
             <button onClick={onStartPlaying}>Start playing</button>
 

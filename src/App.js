@@ -26,8 +26,10 @@ function App() {
     const [decks, setDecks] = useState([]);
     const [gameConfiguration, setGameConfiguration] = useStickyState({
         turnLengthInMinutes: 5,
-        numberOfDoubleTimes: 1,
-        numberOfSkips: 1
+        numberOfModifiers: {
+            doubleTime: 1,
+            skip: 1
+        }
     }, "gameConfiguration");
 
 
