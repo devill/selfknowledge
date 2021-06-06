@@ -8,10 +8,10 @@ function useStickyState(defaultValue, key) {
         ? JSON.parse(stickyValue)
         : defaultValue;
     });
-    React.useEffect(() => {
-      window.localStorage.setItem("SelfKnowledge_" + key, JSON.stringify(value));
-    }, [key, value]);
-    return [value, setValue];
+    return [value, (newValue) => {
+      window.localStorage.setItem("SelfKnowledge_" + key, JSON.stringify(newValue));
+      return setValue(newValue);
+    }];
 }
 
 export default useStickyState
