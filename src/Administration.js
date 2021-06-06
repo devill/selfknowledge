@@ -12,9 +12,9 @@ function Administration({onChange, decks, onStartPlaying, players, gameConfigura
             name: newPlayerName,
             deck: newPlayerDeck,
             deckTitle: decks[newPlayerDeck].title,
-            modifiers: {
-                doubleTime: 1,
-                skip: 1
+            modifiersUsed: {
+                doubleTime: 0,
+                skip: 0
             }
         }], gameConfiguration);
         setNewPlayerName("");
@@ -23,11 +23,16 @@ function Administration({onChange, decks, onStartPlaying, players, gameConfigura
     const removePlayer = (player) => {
         onChange(players.filter((currentPlayer) => currentPlayer.id !== player.id), gameConfiguration);
     };
-    const updateTurnLength = (e) => {
-        onChange(players, {...gameConfiguration, 
-            turnLengthInMinutes: e.target.value
-        });
+    const updateGameConfig = (key) => {
+        return (e) => {
+            console.log(key, e.target.value);
+            onChange(players, {...gameConfiguration, 
+                [key]: e.target.value
+            });
+            console.log(gameConfiguration);
+        }
     };
+
 
 
     return (
@@ -43,7 +48,9 @@ function Administration({onChange, decks, onStartPlaying, players, gameConfigura
             <button onClick={addPlayer}>Add player</button>
             <AdministrationPlayers players={players} onRemovePlayer={removePlayer}/>
             <hr/>
-            Min single turn <input onChange={updateTurnLength} type="number" min="1" value={gameConfiguration["turnLengthInMinutes"]} />
+            Min single turn <input onChange={updateGameConfig("turnLengthInMinutes")} type="number" min="1" value={gameConfiguration["turnLengthInMinutes"]} /><br/>
+            Number of "double times" <input onChange={updateGameConfig("numberOfDoubleTimes")} type="number" min="0" value={gameConfiguration["numberOfDoubleTimes"]} /><br/>
+            Number of "skips" <input onChange={updateGameConfig("numberOfSkips")} type="number" min="0" value={gameConfiguration["numberOfSkips"]} /><br/>
             <hr/>
             <button onClick={onStartPlaying}>Start playing</button>
 

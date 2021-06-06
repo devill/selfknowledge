@@ -25,7 +25,9 @@ function App() {
     const [players, setPlayers] = useStickyState([], "Players");
     const [decks, setDecks] = useState([]);
     const [gameConfiguration, setGameConfiguration] = useStickyState({
-        turnLengthInMinutes: 5 
+        turnLengthInMinutes: 5,
+        numberOfDoubleTimes: 1,
+        numberOfSkips: 1
     }, "gameConfiguration");
 
 

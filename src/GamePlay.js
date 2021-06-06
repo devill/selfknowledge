@@ -22,8 +22,8 @@ function GamePlay({players, decks, setPlayers, onEndGame, onModifyGame, gameConf
         }
         setPlayers(players.map((thisPlayer) => {
             if (thisPlayer.id === player.id) {
-                return {...player, modifiers: {
-                    ...player.modifiers, [modifierName]: player.modifiers[modifierName]-1
+                return {...player, modifiersUsed: {
+                    ...player.modifiersUsed, [modifierName]: player.modifiersUsed[modifierName]+1
                     }
                 };
             } else {
@@ -42,7 +42,12 @@ function GamePlay({players, decks, setPlayers, onEndGame, onModifyGame, gameConf
 
     return (
         <div>
-            <GamePlayers players={players} activePlayerIndex={activePlayerIndex} useModifier={useModifier} />
+            <GamePlayers
+                players={players}
+                activePlayerIndex={activePlayerIndex}
+                useModifier={useModifier}
+                gameConfiguration={gameConfiguration}
+            />
             <Card text={currentCard}/>
             <CountdownTimer timestamp={endOfCurrentTurn}/>
             <button onClick={drawACard}>Draw Card</button>
