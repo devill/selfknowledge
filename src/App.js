@@ -28,6 +28,7 @@ function App() {
         turnLengthInMinutes: 5,
         numberOfModifiers: {
             share: 1,
+            invite: 1,
             doubleTime: 1,
             skipTurn: 1,
             skipCard: 1

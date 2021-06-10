@@ -15,6 +15,7 @@ function Player({player, onUseModifier, active, gameConfiguration, sharing}) {
 
     return (
         <p>{player.name} -
+            <ModifierCard modifierKey="invite" text="invite" />
             <ModifierCard modifierKey="share" text="share" />
             <ModifierCard modifierKey="doubleTime" text="double time" />
             <ModifierCard modifierKey="skipTurn" text="skip turn" />

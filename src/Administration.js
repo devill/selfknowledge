@@ -13,6 +13,7 @@ function Administration({onChange, decks, onStartPlaying, players, gameConfigura
             deck: newPlayerDeck,
             deckTitle: decks[newPlayerDeck].title,
             modifiersUsed: {
+                invite: 0,
                 share: 0,
                 doubleTime: 0,
                 skipTurn: 0,
@@ -74,6 +75,7 @@ function Administration({onChange, decks, onStartPlaying, players, gameConfigura
             <ModifierCardConfiguration modifierKey="skipTurn" text="skip turn" />
             <ModifierCardConfiguration modifierKey="skipCard" text="skip card" />
             <ModifierCardConfiguration modifierKey="share" text="share" />
+            <ModifierCardConfiguration modifierKey="invite" text="invite" />
             <hr/>
             <button onClick={onStartPlaying}>Start playing</button>
 

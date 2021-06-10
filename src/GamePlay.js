@@ -32,6 +32,11 @@ function GamePlay({players, decks, setPlayers, onEndGame, onModifyGame, gameConf
             setEndOfCurrentTurn(Date.now()/1000 + gameConfiguration["turnLengthInMinutes"]*60);
             setSharingPlayerID(player.id);
         }
+        if (modifierName === 'invite') {
+            // show "invited" button for each other player, and when clicked it makes that player the sharing player and timer restarts
+            // setEndOfCurrentTurn(Date.now()/1000 + gameConfiguration["turnLengthInMinutes"]*60);
+            // setSharingPlayerID(player.id);
+        }
         setPlayers(players.map((thisPlayer) => {
             if (thisPlayer.id === player.id) {
                 return {...player, modifiersUsed: {
