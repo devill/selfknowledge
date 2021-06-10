@@ -16,7 +16,7 @@ function Player({player, onUseModifier, active, gameConfiguration}) {
     return (
         <p>{player.name} -
             <ModifierCard modifierKey="doubleTime" text="double time" />
-            <ModifierCard modifierKey="skip" text="skip" />
+            <ModifierCard modifierKey="skipTurn" text="skip turn" />
             {player.deckTitle} - {active ? "active" : ""}
         </p>
     );

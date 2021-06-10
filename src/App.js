@@ -28,7 +28,7 @@ function App() {
         turnLengthInMinutes: 5,
         numberOfModifiers: {
             doubleTime: 1,
-            skip: 1
+            skipTurn: 1
         }
     }, "gameConfiguration");
 
