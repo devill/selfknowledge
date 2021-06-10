@@ -44,6 +44,15 @@ function Administration({onChange, decks, onStartPlaying, players, gameConfigura
         }
     };
 
+    function ModifierCardConfiguration({modifierKey, text}) {
+        return (<span>
+            {
+                <div>
+                    Number of "{text}" <input onChange={updateGameModifiers(modifierKey)} type="number" min="0" value={gameConfiguration.numberOfModifiers[modifierKey]} />
+                </div>
+            }
+        </span>)
+    }
 
     return (
         <div className="Management">
@@ -58,9 +67,9 @@ function Administration({onChange, decks, onStartPlaying, players, gameConfigura
             <button onClick={addPlayer}>Add player</button>
             <AdministrationPlayers players={players} onRemovePlayer={removePlayer}/>
             <hr/>
-            Min single turn <input onChange={updateGameConfig("turnLengthInMinutes")} type="number" min="1" value={gameConfiguration["turnLengthInMinutes"]} /><br/>
-            Number of "double times" <input onChange={updateGameModifiers("doubleTime")} type="number" min="0" value={gameConfiguration.numberOfModifiers["doubleTime"]} /><br/>
-            Number of "skips" <input onChange={updateGameModifiers("skip")} type="number" min="0" value={gameConfiguration.numberOfModifiers["skip"]} /><br/>
+            <div>Min single turn <input onChange={updateGameConfig("turnLengthInMinutes")} type="number" min="1" value={gameConfiguration["turnLengthInMinutes"]} /></div>
+            <ModifierCardConfiguration modifierKey="doubleTime" text="double time" />
+            <ModifierCardConfiguration modifierKey="skip" text="skip" />
             <hr/>
             <button onClick={onStartPlaying}>Start playing</button>
 
