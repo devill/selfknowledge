@@ -14,7 +14,8 @@ function Administration({onChange, decks, onStartPlaying, players, gameConfigura
             deckTitle: decks[newPlayerDeck].title,
             modifiersUsed: {
                 doubleTime: 0,
-                skipTurn: 0
+                skipTurn: 0,
+                skipCard: 0
             }
         }], gameConfiguration);
         setNewPlayerName("");
@@ -70,6 +71,7 @@ function Administration({onChange, decks, onStartPlaying, players, gameConfigura
             <div>Min single turn <input onChange={updateGameConfig("turnLengthInMinutes")} type="number" min="1" value={gameConfiguration["turnLengthInMinutes"]} /></div>
             <ModifierCardConfiguration modifierKey="doubleTime" text="double time" />
             <ModifierCardConfiguration modifierKey="skipTurn" text="skip turn" />
+            <ModifierCardConfiguration modifierKey="skipCard" text="skip card" />
             <hr/>
             <button onClick={onStartPlaying}>Start playing</button>
 

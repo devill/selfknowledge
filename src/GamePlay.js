@@ -20,6 +20,12 @@ function GamePlay({players, decks, setPlayers, onEndGame, onModifyGame, gameConf
         if (modifierName === 'doubleTime') {
             setEndOfCurrentTurn(endOfCurrentTurn + gameConfiguration["turnLengthInMinutes"]*60);
         }
+        if (modifierName === 'skipTurn') {
+            setCurrentCard("");
+        }
+        if (modifierName === 'skipCard') {
+            setCurrentCard(decks[ players[activePlayerIndex].deck ].cards.pick());
+        }
         setPlayers(players.map((thisPlayer) => {
             if (thisPlayer.id === player.id) {
                 return {...player, modifiersUsed: {
