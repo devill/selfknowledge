@@ -27,6 +27,7 @@ function App() {
     const [gameConfiguration, setGameConfiguration] = useStickyState({
         turnLengthInMinutes: 5,
         numberOfModifiers: {
+            share: 1,
             doubleTime: 1,
             skipTurn: 1,
             skipCard: 1

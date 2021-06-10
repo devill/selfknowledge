@@ -8,11 +8,13 @@ import useStickyState from './useStickyState';
 function GamePlay({players, decks, setPlayers, onEndGame, onModifyGame, gameConfiguration}) {
     const [currentCard, setCurrentCard] = useStickyState("", "CurrentCard");
     const [activePlayerIndex, setActivePlayerIndex] = useStickyState(-1, "ActiverPlayerIndex");
+    const [sharingPlayerID, setSharingPlayerID] = useStickyState("", "SharingPlayerID");
     const [endOfCurrentTurn, setEndOfCurrentTurn] = useStickyState(0, "EndOfCurrentTurn");
     const drawACard = () => {
         console.log(gameConfiguration);
         const currentPlayerIndex = (activePlayerIndex+1) % players.length;
         setActivePlayerIndex(currentPlayerIndex);
+        setSharingPlayerID("");
         setEndOfCurrentTurn(Date.now()/1000 + gameConfiguration["turnLengthInMinutes"]*60);
         setCurrentCard(decks[ players[currentPlayerIndex].deck ].cards.pick());
     };
@@ -25,6 +27,10 @@ function GamePlay({players, decks, setPlayers, onEndGame, onModifyGame, gameConf
         }
         if (modifierName === 'skipCard') {
             setCurrentCard(decks[ players[activePlayerIndex].deck ].cards.pick());
+        }
+        if (modifierName === 'share') {
+            setEndOfCurrentTurn(Date.now()/1000 + gameConfiguration["turnLengthInMinutes"]*60);
+            setSharingPlayerID(player.id);
         }
         setPlayers(players.map((thisPlayer) => {
             if (thisPlayer.id === player.id) {
@@ -41,6 +47,7 @@ function GamePlay({players, decks, setPlayers, onEndGame, onModifyGame, gameConf
     const endGame = () => {
         setCurrentCard("");
         setActivePlayerIndex(-1);
+        setSharingPlayerID("");
         setEndOfCurrentTurn(0);
         console.log("endGame");
         onEndGame();
@@ -51,6 +58,7 @@ function GamePlay({players, decks, setPlayers, onEndGame, onModifyGame, gameConf
             <GamePlayers
                 players={players}
                 activePlayerIndex={activePlayerIndex}
+                sharingPlayerID={sharingPlayerID}
                 useModifier={useModifier}
                 gameConfiguration={gameConfiguration}
             />

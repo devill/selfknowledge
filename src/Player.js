@@ -1,7 +1,7 @@
 import React from "react";
 
 
-function Player({player, onUseModifier, active, gameConfiguration}) {
+function Player({player, onUseModifier, active, gameConfiguration, sharing}) {
     function ModifierCard({modifierKey, text}) {
         return (<span>
             {
@@ -15,10 +15,11 @@ function Player({player, onUseModifier, active, gameConfiguration}) {
 
     return (
         <p>{player.name} -
+            <ModifierCard modifierKey="share" text="share" />
             <ModifierCard modifierKey="doubleTime" text="double time" />
             <ModifierCard modifierKey="skipTurn" text="skip turn" />
             <ModifierCard modifierKey="skipCard" text="skip card" />
-            {player.deckTitle} - {active ? "active" : ""}
+            {player.deckTitle} - {active ? "active" : ""}{sharing ? "sharing" : ""}
         </p>
     );
 }
