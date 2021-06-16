@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Card from './Card';
 import GamePlayers from './GamePlayers';
 import CountdownTimer from './CountdownTimer';

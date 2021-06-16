@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import {useState} from 'react';
 
 
 function useStickyState(defaultValue, key) {
-    const [value, setValue] = React.useState(() => {
+    const [value, setValue] = useState(() => {
       const stickyValue = window.localStorage.getItem("SelfKnowledge_" + key);
       return stickyValue !== null
         ? JSON.parse(stickyValue)

@@ -53,6 +53,7 @@ function App() {
                 onChange={(players, gameConfiguration) => { setPlayers(players); setGameConfiguration(gameConfiguration)}}
                 players={players}
                 gameConfiguration={gameConfiguration}
+                key="Administration"
             />
             }
             

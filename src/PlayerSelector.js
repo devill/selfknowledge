@@ -1,6 +1,4 @@
 import React, {useState} from 'react';
-import useStickyState from './useStickyState';
-
 
 function PlayerSelector({players, onSubmit, onCancel}) {
     const [selectedPlayerId, setSelectedPlayerId] = useState("", "SelectedPlayerId");

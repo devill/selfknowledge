@@ -2,6 +2,16 @@ import React, {useState} from "react";
 import AdministrationPlayers from './AdministrationPlayers';
 import { v4 as uuidv4 } from 'uuid';
 
+function ModifierCardConfiguration({modifierKey, text, onChange, value}) {
+    return (<span>
+        {
+            <div>
+                Number of "{text}" <input key={modifierKey} onChange={onChange(modifierKey)} type="number" min="0" value={value} />
+            </div>
+        }
+    </span>)
+}
+
 function Administration({onChange, decks, onStartPlaying, players, gameConfiguration}) {
     const [newPlayerName, setNewPlayerName] = useState("");
     const [newPlayerDeck, setNewPlayerDeck] = useState(0);
@@ -45,15 +55,17 @@ function Administration({onChange, decks, onStartPlaying, players, gameConfigura
         }
     };
 
-    function ModifierCardConfiguration({modifierKey, text}) {
-        return (<span>
-            {
-                <div>
-                    Number of "{text}" <input onChange={updateGameModifiers(modifierKey)} type="number" min="0" value={gameConfiguration.numberOfModifiers[modifierKey]} />
-                </div>
-            }
-        </span>)
+    const isNonNegativeNumber = (value) => {
+        return /^\d+$/.test(value);
     }
+
+    const isValidGame = () => {
+        return players.length > 1 && 
+            isNonNegativeNumber(gameConfiguration["turnLengthInMinutes"]) &&
+            gameConfiguration["turnLengthInMinutes"] > 0 &&
+            Object.values(gameConfiguration.numberOfModifiers).every((modifyerCount) => isNonNegativeNumber(modifyerCount));
+    }
+
 
     return (
         <div className="Management">
@@ -69,13 +81,13 @@ function Administration({onChange, decks, onStartPlaying, players, gameConfigura
             <AdministrationPlayers players={players} onRemovePlayer={removePlayer}/>
             <hr/>
             <div>Min single turn <input onChange={updateGameConfig("turnLengthInMinutes")} type="number" min="1" value={gameConfiguration["turnLengthInMinutes"]} /></div>
-            <ModifierCardConfiguration modifierKey="doubleTime" text="double time" />
-            <ModifierCardConfiguration modifierKey="skipTurn" text="skip turn" />
-            <ModifierCardConfiguration modifierKey="skipCard" text="skip card" />
-            <ModifierCardConfiguration modifierKey="share" text="share" />
-            <ModifierCardConfiguration modifierKey="invite" text="invite" />
+            <ModifierCardConfiguration onChange={updateGameModifiers} modifierKey="doubleTime" text="double time"  value={gameConfiguration.numberOfModifiers["doubleTime"]} />
+            <ModifierCardConfiguration onChange={updateGameModifiers} modifierKey="skipTurn" text="skip turn"  value={gameConfiguration.numberOfModifiers["skipTurn"]} />
+            <ModifierCardConfiguration onChange={updateGameModifiers} modifierKey="skipCard" text="skip card"  value={gameConfiguration.numberOfModifiers["skipCard"]} />
+            <ModifierCardConfiguration onChange={updateGameModifiers} modifierKey="share" text="share"   value={gameConfiguration.numberOfModifiers["share"]}/>
+            <ModifierCardConfiguration onChange={updateGameModifiers} modifierKey="invite" text="invite"   value={gameConfiguration.numberOfModifiers["invite"]}/>
             <hr/>
-            <button onClick={onStartPlaying}>Start playing</button>
+            <button disabled={isValidGame() ? "": "disabled"} onClick={onStartPlaying}>Start playing</button>
 
         </div>
 

@@ -1,5 +1,4 @@
 import React from "react";
-import Player from './Player';
 
 function AdministrationPlayers({players, onRemovePlayer}) {
     return (
