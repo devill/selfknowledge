@@ -28,11 +28,9 @@ function Administration({onChange, decks, onStartPlaying, players, gameConfigura
     };
     const updateGameConfig = (key) => {
         return (e) => {
-            console.log(key, e.target.value);
             onChange(players, {...gameConfiguration, 
                 [key]: e.target.value
             });
-            console.log(gameConfiguration);
         }
     };
 

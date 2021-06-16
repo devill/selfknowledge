@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import Card from './Card';
 import GamePlayers from './GamePlayers';
 import CountdownTimer from './CountdownTimer';
+import PlayerSelector from './PlayerSelector';
 import useStickyState from './useStickyState';
 
 
@@ -9,9 +10,9 @@ function GamePlay({players, decks, setPlayers, onEndGame, onModifyGame, gameConf
     const [currentCard, setCurrentCard] = useStickyState("", "CurrentCard");
     const [activePlayerIndex, setActivePlayerIndex] = useStickyState(-1, "ActiverPlayerIndex");
     const [sharingPlayerID, setSharingPlayerID] = useStickyState("", "SharingPlayerID");
+    const [inviting, setInviting] = useStickyState(false, "Inviting");
     const [endOfCurrentTurn, setEndOfCurrentTurn] = useStickyState(0, "EndOfCurrentTurn");
     const drawACard = () => {
-        console.log(gameConfiguration);
         const currentPlayerIndex = (activePlayerIndex+1) % players.length;
         setActivePlayerIndex(currentPlayerIndex);
         setSharingPlayerID("");
@@ -33,9 +34,7 @@ function GamePlay({players, decks, setPlayers, onEndGame, onModifyGame, gameConf
             setSharingPlayerID(player.id);
         }
         if (modifierName === 'invite') {
-            // show "invited" button for each other player, and when clicked it makes that player the sharing player and timer restarts
-            // setEndOfCurrentTurn(Date.now()/1000 + gameConfiguration["turnLengthInMinutes"]*60);
-            // setSharingPlayerID(player.id);
+            setInviting(true);
         }
         setPlayers(players.map((thisPlayer) => {
             if (thisPlayer.id === player.id) {
@@ -49,30 +48,50 @@ function GamePlay({players, decks, setPlayers, onEndGame, onModifyGame, gameConf
         }));
     };
 
+    const handleInvitation = (playerId) =>  {
+        setInviting(false);
+        setEndOfCurrentTurn(Date.now()/1000 + gameConfiguration["turnLengthInMinutes"]*60);
+        setSharingPlayerID(playerId);
+    }
+    const handleInvitationCancel = (activePlayerIndex) => {
+        setInviting(false);
+        setPlayers(players.map((player, index) => {
+            if (activePlayerIndex === index) {
+                return {...player, modifiersUsed: {
+                    ...player.modifiersUsed, invite: player.modifiersUsed['invite']-1
+                    }
+                };
+            } else {
+                return player;
+            }
+        }));
+    }
+
     const endGame = () => {
         setCurrentCard("");
+        setInviting(false);
         setActivePlayerIndex(-1);
         setSharingPlayerID("");
         setEndOfCurrentTurn(0);
-        console.log("endGame");
         onEndGame();
     };
 
     return (
         <div>
-            <GamePlayers
-                players={players}
-                activePlayerIndex={activePlayerIndex}
-                sharingPlayerID={sharingPlayerID}
-                useModifier={useModifier}
-                gameConfiguration={gameConfiguration}
-            />
-            <Card text={currentCard}/>
-            <CountdownTimer timestamp={endOfCurrentTurn}/>
-            <button onClick={drawACard}>Draw Card</button>
+            { !inviting && <div>
+                <GamePlayers
+                    players={players}
+                    activePlayerIndex={activePlayerIndex}
+                    sharingPlayerID={sharingPlayerID}
+                    useModifier={useModifier}
+                    gameConfiguration={gameConfiguration}
+                />
+                <Card text={currentCard}/>
+                <CountdownTimer timestamp={endOfCurrentTurn}/>
+                <button onClick={drawACard}>Draw Card</button>
+            </div>}
+            { inviting && <PlayerSelector players={players.filter((_, index) => index !== activePlayerIndex )} onSubmit={handleInvitation} onCancel={() => handleInvitationCancel(activePlayerIndex)}/> }
 
-
-            
             <hr/>
             <button onClick={endGame}>End Game</button>
             <button onClick={onModifyGame}>Modify Game</button>
