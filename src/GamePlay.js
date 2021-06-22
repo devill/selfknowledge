@@ -12,18 +12,21 @@ function GamePlay({players, decks, setPlayers, onEndGame, onModifyGame, gameConf
     const [sharingPlayerID, setSharingPlayerID] = useStickyState("", "SharingPlayerID");
     const [inviting, setInviting] = useStickyState(false, "Inviting");
     const [endOfCurrentTurn, setEndOfCurrentTurn] = useStickyState(0, "EndOfCurrentTurn");
+    const [hasActiveCard, setHasActiveCard] = useStickyState(false, "HasActiveCard");
     const drawACard = () => {
         const currentPlayerIndex = (activePlayerIndex+1) % players.length;
         setActivePlayerIndex(currentPlayerIndex);
         setSharingPlayerID("");
         setEndOfCurrentTurn(Date.now()/1000 + gameConfiguration["turnLengthInMinutes"]*60);
         setCurrentCard(decks[ players[currentPlayerIndex].deck ].cards.pick());
+        setHasActiveCard(true);
     };
     const useModifier = (modifierName, player) => {
         if (modifierName === 'doubleTime') {
             setEndOfCurrentTurn(endOfCurrentTurn + gameConfiguration["turnLengthInMinutes"]*60);
         }
         if (modifierName === 'skipTurn') {
+            setHasActiveCard(false);
             setCurrentCard("");
         }
         if (modifierName === 'skipCard') {
@@ -73,6 +76,7 @@ function GamePlay({players, decks, setPlayers, onEndGame, onModifyGame, gameConf
         setActivePlayerIndex(-1);
         setSharingPlayerID("");
         setEndOfCurrentTurn(0);
+        setHasActiveCard(false);
         onEndGame();
     };
 
@@ -85,6 +89,7 @@ function GamePlay({players, decks, setPlayers, onEndGame, onModifyGame, gameConf
                     sharingPlayerID={sharingPlayerID}
                     useModifier={useModifier}
                     gameConfiguration={gameConfiguration}
+                    hasActiveCard={hasActiveCard}
                 />
                 <Card text={currentCard}/>
                 <CountdownTimer timestamp={endOfCurrentTurn}/>

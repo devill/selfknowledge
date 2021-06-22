@@ -1,7 +1,7 @@
 import React from "react";
 import Player from './Player';
 
-function GamePlayers({players, activePlayerIndex, sharingPlayerID, useModifier, gameConfiguration}) {
+function GamePlayers({players, activePlayerIndex, sharingPlayerID, useModifier, gameConfiguration, hasActiveCard}) {
     return (
         <div className="Players">
             {            
@@ -13,6 +13,7 @@ function GamePlayers({players, activePlayerIndex, sharingPlayerID, useModifier, 
                     active={activePlayerIndex === index}
                     sharing={sharingPlayerID === player.id}
                     gameConfiguration={gameConfiguration}
+                    hasActiveCard={hasActiveCard}
                 />
             })
         }

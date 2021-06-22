@@ -1,7 +1,7 @@
 import React from "react";
 
 
-function Player({player, onUseModifier, active, gameConfiguration, sharing}) {
+function Player({player, onUseModifier, active, gameConfiguration, sharing, hasActiveCard}) {
     function ModifierCard({modifierKey, text}) {
         return (<span>
             {
@@ -12,16 +12,21 @@ function Player({player, onUseModifier, active, gameConfiguration, sharing}) {
             }
         </span>)
     }
-
+    const shareButton = hasActiveCard ? <ModifierCard modifierKey="share" text="share" /> : "";
     return (
-        <p>{player.name} -
-            <ModifierCard modifierKey="invite" text="invite" />
-            <ModifierCard modifierKey="share" text="share" />
-            <ModifierCard modifierKey="doubleTime" text="double time" />
-            <ModifierCard modifierKey="skipTurn" text="skip turn" />
-            <ModifierCard modifierKey="skipCard" text="skip card" />
-            {player.deckTitle} - {active ? "active" : ""}{sharing ? "sharing" : ""}
-        </p>
+        <div>
+            <p>{player.name} - {player.deckTitle} - {active ? "active" : ""}{sharing ? "sharing" : ""}</p>
+            <span>
+                {hasActiveCard ? <>
+                    {active ? (<span><ModifierCard modifierKey="invite" text="invite" />
+                    <ModifierCard modifierKey="doubleTime" text="double time" />
+                    <ModifierCard modifierKey="skipTurn" text="skip turn" />
+                    <ModifierCard modifierKey="skipCard" text="skip card" /></span>)
+                    : <span><ModifierCard modifierKey="share" text="share" /></span> }</>
+                    : ""
+                }
+            </span>
+        </div>
     );
 }
 
