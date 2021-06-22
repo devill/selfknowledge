@@ -92,6 +92,7 @@ function GamePlay({players, decks, setPlayers, onEndGame, onModifyGame, gameConf
                     hasActiveCard={hasActiveCard}
                 />
                 <Card text={currentCard}/>
+                <hr/>
                 <CountdownTimer timestamp={endOfCurrentTurn}/>
                 <button onClick={drawACard}>Draw Card</button>
             </div>}

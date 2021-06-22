@@ -3,13 +3,11 @@ import AdministrationPlayers from './AdministrationPlayers';
 import { v4 as uuidv4 } from 'uuid';
 
 function ModifierCardConfiguration({modifierKey, text, onChange, value}) {
-    return (<span>
-        {
-            <div>
+    return (
+            <div className="config-value">
                 Number of "{text}" <input key={modifierKey} onChange={onChange(modifierKey)} type="number" min="0" value={value} />
             </div>
-        }
-    </span>)
+        )
 }
 
 function Administration({onChange, decks, onStartPlaying, players, gameConfiguration}) {
@@ -69,6 +67,7 @@ function Administration({onChange, decks, onStartPlaying, players, gameConfigura
 
     return (
         <div className="Management">
+            <div className="AddPlayerForm">
             <input value={newPlayerName} onChange={(e) => setNewPlayerName(e.target.value)}/>
                 <select onChange={(e) => setNewPlayerDeck(e.target.value)}>
                 {
@@ -78,9 +77,12 @@ function Administration({onChange, decks, onStartPlaying, players, gameConfigura
                 }
                 </select>
             <button onClick={addPlayer}>Add player</button>
+            </div>
+            <hr/>
             <AdministrationPlayers players={players} onRemovePlayer={removePlayer}/>
             <hr/>
-            <div>Min single turn <input onChange={updateGameConfig("turnLengthInMinutes")} type="number" min="1" value={gameConfiguration["turnLengthInMinutes"]} /></div>
+            <div className="config-value">Min single turn <input onChange={updateGameConfig("turnLengthInMinutes")} type="number" min="1" value={gameConfiguration["turnLengthInMinutes"]} /></div>
+            <hr/>
             <ModifierCardConfiguration onChange={updateGameModifiers} modifierKey="doubleTime" text="double time"  value={gameConfiguration.numberOfModifiers["doubleTime"]} />
             <ModifierCardConfiguration onChange={updateGameModifiers} modifierKey="skipTurn" text="skip turn"  value={gameConfiguration.numberOfModifiers["skipTurn"]} />
             <ModifierCardConfiguration onChange={updateGameModifiers} modifierKey="skipCard" text="skip card"  value={gameConfiguration.numberOfModifiers["skipCard"]} />

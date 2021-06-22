@@ -21,7 +21,7 @@ function CountdownTimer({timestamp}) {
 
 
     return (
-        <div>{timeRemaining}
+        <div className="CountdownTimer">{timeRemaining}
         </div>
     );
 }

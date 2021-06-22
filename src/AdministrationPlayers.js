@@ -2,12 +2,12 @@ import React from "react";
 
 function AdministrationPlayers({players, onRemovePlayer}) {
     return (
-        <div className="Players">
+        <div className="AdministrationPlayers">
             {            
             players.map((player) => {
-                return <p key={player.id}>
-                    <b>{player.name}</b> - {player.deckTitle} - <button onClick={() => {onRemovePlayer(player)}}>❌</button>
-                </p>
+                return <div key={player.id}><button onClick={() => {onRemovePlayer(player)}}>❌</button>
+                    <b>{player.name}</b> - {player.deckTitle}
+                </div>
             })
         }
 

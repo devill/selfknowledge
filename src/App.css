@@ -1,27 +1,97 @@
+body {
+  background-color: lightslategray; 
+  font-family:sans-serif;
+}
+
 .App {
   text-align: center;
+  margin:auto;
+  max-width: 500px;
+  background-color: white;
+}
+
+.Management .AddPlayerForm {
+  padding:20px;
+  text-align: left;
+}
+
+.Management .AddPlayerForm select { 
+  margin-left: 10px;
+}
+
+.Management .AddPlayerForm button { 
+  float:right;
+  margin:0px
+}
+
+.Player .Management {
+  border: solid 1px white;
+  background-color:lightskyblue;
+  padding: 5px 20px 5px 20px;
+  text-align: left;
+  min-height: 55px;
+}
+
+.Management .AdministrationPlayers, .Management .config-value {
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .Card {
-  margin:auto;
-  margin-bottom: 30px;
-  border: darkgray 1px solid;
-  border-radius: 15px;
-  width:300px;
-  height:150px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 5px 20px 5px 20px;
 }
 
-.Card p {
-  margin: auto;
-  max-width: 250px;
+.Player.Active {
+  background-color: lightpink;
 }
-.Management {
-  margin: 20px;
+
+.Player.Sharing {
+  background-color: lightskyblue;
+}
+
+.Player .indicator {
+  float:right;
+  font-size: 30px;
+}
+
+.CountdownTimer {
+  font-size: 25px;
+}
+
+.Management div.config-value {
+  height:30px;
+  text-align: left;
+}
+
+.Management div.config-value  input {
+  float:right;
+  width: 50px;
+}
+
+.AdministrationPlayers div {
+  text-align: left;
+  height: 20px;
+  background-color: lightskyblue;
+  border: 1px solid white;
+  padding: 5px;
+}
+
+.AdministrationPlayers div button {
+  float:right;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
 }
 
 button {
   margin:5px;
+  background-color: white;
+  border: 1px solid grey;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+button:first-child {
+  margin-left: 0px;
 }
