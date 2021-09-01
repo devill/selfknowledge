@@ -13,7 +13,16 @@ function GamePlay({players, decks, setPlayers, onEndGame, onModifyGame, gameConf
     const [inviting, setInviting] = useStickyState(false, "Inviting");
     const [endOfCurrentTurn, setEndOfCurrentTurn] = useStickyState(0, "EndOfCurrentTurn");
     const [hasActiveCard, setHasActiveCard] = useStickyState(false, "HasActiveCard");
+
+    const confirmYieldTime = () => {
+            return endOfCurrentTurn  - Date.now()/1000 <= 0 || window.confirm("Are you sure you want to yield time?");
+    }
+
     const drawACard = () => {
+        if(!confirmYieldTime()) {
+            return;
+        }
+
         const currentPlayerIndex = (activePlayerIndex+1) % players.length;
         setActivePlayerIndex(currentPlayerIndex);
         setSharingPlayerID("");
@@ -26,6 +35,9 @@ function GamePlay({players, decks, setPlayers, onEndGame, onModifyGame, gameConf
             setEndOfCurrentTurn(endOfCurrentTurn + gameConfiguration["turnLengthInMinutes"]*60);
         }
         if (modifierName === 'skipTurn') {
+            if(!confirmYieldTime()) {
+                return;
+            }
             setHasActiveCard(false);
             setCurrentCard("");
         }
@@ -33,6 +45,9 @@ function GamePlay({players, decks, setPlayers, onEndGame, onModifyGame, gameConf
             setCurrentCard(decks[ players[activePlayerIndex].deck ].cards.pick());
         }
         if (modifierName === 'share') {
+            if(!confirmYieldTime()) {
+                return;
+            }
             setEndOfCurrentTurn(Date.now()/1000 + gameConfiguration["turnLengthInMinutes"]*60);
             setSharingPlayerID(player.id);
         }
