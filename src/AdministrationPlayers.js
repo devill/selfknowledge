@@ -2,7 +2,7 @@ import React from "react";
 
 function AdministrationPlayers({players, onRemovePlayer}) {
     return (
-        <div className="AdministrationPlayers">
+        <div data-testid="AdministrationPlayers" className="AdministrationPlayers">
             {            
             players.map((player) => {
                 return <div key={player.id}><button onClick={() => {onRemovePlayer(player)}}>❌</button>

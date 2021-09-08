@@ -68,8 +68,8 @@ function Administration({onChange, decks, onStartPlaying, players, gameConfigura
     return (
         <div className="Management">
             <div className="AddPlayerForm">
-            <input value={newPlayerName} onChange={(e) => setNewPlayerName(e.target.value)}/>
-                <select onChange={(e) => setNewPlayerDeck(e.target.value)}>
+            <input data-testid="player-name" value={newPlayerName} onChange={(e) => setNewPlayerName(e.target.value)}/>
+                <select data-testid="deck-selector" onChange={(e) => setNewPlayerDeck(e.target.value)}>
                 {
                     decks.map((deck, index) => {
                         return <option value={index} key={index}>{deck.title}</option>
