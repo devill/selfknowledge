@@ -4,6 +4,7 @@ import GamePlay from './GamePlay';
 import Administration from './Administration';
 import useStickyState from './useStickyState';
 
+/*eslint no-extend-native: ["error", { "exceptions": ["Array"] }]*/
 Array.prototype.pick = function () {
     return this[Math.floor(Math.random() * this.length)];
 };

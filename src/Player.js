@@ -12,7 +12,7 @@ function Player({player, onUseModifier, active, gameConfiguration, sharing, hasA
             }
         </>)
     }
-    const shareButton = hasActiveCard ? <ModifierCard modifierKey="share" text="share" /> : "";
+    //const shareButton = hasActiveCard ? <ModifierCard modifierKey="share" text="share" /> : "";
     return (
         <div className={active ? "Active Player" : sharing ? "Sharing Player" : "Player"}>
             <div className="indicator">{sharing ? "📢" : ""}</div>
