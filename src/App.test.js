@@ -1,4 +1,4 @@
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor, within } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import App from './App';
 
@@ -66,8 +66,47 @@ Four`});
     expect(players).toHaveTextContent("❌Foo - First stage");
     expect(players).toHaveTextContent("❌Bar - Second stage");
 
-    expect(start_playing_button).toBeEnabled()
+    expect(start_playing_button).toBeEnabled();
 
-    // TODO: when adding a player check that the name field is not empty and remve spaces from around the name.
+    // TODO: when adding a player check that the name field is not empty (or just white spaces)
+    // TODO: when adding a player remove spaces from around the name.
+    // TODO: avoid adding two players with the same name
+
+
+    // add 3rd and 4th players
+    fireEvent.change(input, {target: {value: 'Third player'}});
+    fireEvent.change(stage_selector, { target: { value: 0 } });
+    await act(async () => {
+      fireEvent.click(add_player_button);
+    });
+
+    fireEvent.change(input, {target: {value: 'Fourth player'}});
+    fireEvent.change(stage_selector, { target: { value: 1 } });
+    await act(async () => {
+      fireEvent.click(add_player_button);
+    });
+
+    expect(players).toHaveTextContent("❌Foo - First stage");
+    expect(players).toHaveTextContent("❌Bar - Second stage");
+    expect(players).toHaveTextContent("❌Third player - First stage");
+    expect(players).toHaveTextContent("❌Fourth player - Second stage");
+
+    // remove a player
+    const third_player = screen.getByText("Third player");
+
+    const player_holder_div = third_player.closest("div");
+    //const remove_player_button = within(player_holder_div).getByRole('button');
+    const remove_player_button = within(player_holder_div).getByText("❌");
+    await act(async () => {
+      fireEvent.click(remove_player_button);
+    });
+
+    expect(players).toHaveTextContent("❌Foo - First stage");
+    expect(players).toHaveTextContent("❌Bar - Second stage");
+    expect(players).not.toHaveTextContent("❌Third player - First stage");
+    expect(players).toHaveTextContent("❌Fourth player - Second stage");
+
+    // TODO: test after removing all the players except one, the start playing button is disabled again
+    // TODO: test Start playing
   });
 });
