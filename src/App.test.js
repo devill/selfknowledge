@@ -71,6 +71,7 @@ Four`});
     // TODO: when adding a player check that the name field is not empty (or just white spaces)
     // TODO: when adding a player remove spaces from around the name.
     // TODO: avoid adding two players with the same name
+    // TODO: add favicon
 
 
     // add 3rd and 4th players
