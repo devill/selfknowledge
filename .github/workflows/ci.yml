@@ -21,7 +21,7 @@ jobs:
 
     - name: Setup CI
       run: |
-        nodejs --version
+        node --version
         npm --version
         npm ci
 
