@@ -12,12 +12,13 @@ describe("<App /> component test", () => {
     let screen;
     window.fetch.mockResolvedValue({
     ok: true,
-    text: () => `First section
+    text: () => `First stage
 One
 Two
 
-Second section
-Three`});
+Second stage
+Three
+Four`});
 
     await act(async () => {
       screen = render(app)
@@ -27,26 +28,45 @@ Three`});
     const players = screen.getByTestId("AdministrationPlayers");
     expect(players).toBeEmptyDOMElement();
 
+    // Start playing button is disabled
+    const start_playing_button = screen.getByText("Start playing");
+    expect(start_playing_button).toBeVisible();
+    expect(start_playing_button).toBeDisabled();
+
+    // Type in the name of a player
     const input = screen.getByTestId("player-name");
     expect(input).toBeInTheDocument();
     expect(input).toHaveAttribute("value", "");
     fireEvent.change(input, {target: {value: 'Foo'}})
     expect(input).toHaveAttribute("value", "Foo");
 
-    expect(screen.getByText("First section")).toBeInTheDocument();
+    // Check that the stage selector has the first item selected
+    expect(screen.getByText("First stage")).toBeInTheDocument();
 
-    const selector = screen.getByTestId("deck-selector");
-    expect(selector).not.toBeEmptyDOMElement();
+    const stage_selector = screen.getByTestId("deck-selector");
+    expect(stage_selector).not.toBeEmptyDOMElement();
 
     // Add player
-    const button = screen.getByText("Add player");
+    const add_player_button = screen.getByText("Add player");
     await act(async () => {
-      fireEvent.click(button);
+      fireEvent.click(add_player_button);
     });
 
     expect(players).not.toBeEmptyDOMElement();
-    expect(players).toHaveTextContent(/First section/);
-    expect(players).toHaveTextContent("❌Foo - First section");
+    expect(players).toHaveTextContent(/First stage/);
+    expect(players).toHaveTextContent("❌Foo - First stage");
+
+    expect(start_playing_button).toBeDisabled() // we need two players
+
+    fireEvent.change(input, {target: {value: 'Bar'}})
+    fireEvent.change(stage_selector, { target: { value: 1 } })
+    await act(async () => {
+      fireEvent.click(add_player_button);
+    });
+    expect(players).toHaveTextContent("❌Foo - First stage");
+    expect(players).toHaveTextContent("❌Bar - Second stage");
+
+    expect(start_playing_button).toBeEnabled()
 
     // TODO: when adding a player check that the name field is not empty and remve spaces from around the name.
   });
