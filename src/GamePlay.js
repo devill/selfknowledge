@@ -97,7 +97,7 @@ function GamePlay({players, decks, setPlayers, onEndGame, onModifyGame, gameConf
 
     return (
         <div>
-            { !inviting && <div>
+            { !inviting && <div data-testid="players">
                 <GamePlayers
                     players={players}
                     activePlayerIndex={activePlayerIndex}
